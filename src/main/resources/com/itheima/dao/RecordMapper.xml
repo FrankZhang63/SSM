@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.RecordMapper">
+    <!--添加记录到购物车-->
+    <insert id="addrecord">
+        insert into record set username=#{username},goodsimage=#{goodsimage},goodsprice=#{goodsprice}
+    </insert>
+    <select id="selectrecordByUsernameAndGoodsimage" resultType="record">
+        select * from record where username = #{username} and goodsimage = #{goodsimage} and isbuy=0
+    </select>
+    <select id="selectrecordByUsername" resultType="record">
+        select * from record where username = #{username} and isbuy=0
+    </select>
+<!--更改记录状态-->
+    <update id="updaterecord">
+        update record set buynum=#{buynum},isbuy=1,buytime=#{buytime} where goodsimage=#{goodsimage} and username=#{username} and buytime is null
+    </update>
+<!--查询购买的记录-->
+    <select id="showbuylist" resultType="record">
+        select * from record where username = #{username} and isbuy=1
+    </select>
+    <select id="selectrecord" resultType="record">
+        select * from record where isbuy=1
+    </select>
+</mapper>

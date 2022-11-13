@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.GoodsMapper">
+
+<!--查询所有商品-->
+    <select id="selectAllGoods" resultMap="allGoodsMap">
+        select id,image,brand,type,price from goods where is_delete=0
+    </select>
+    <resultMap id="allGoodsMap" type="Goods">
+        <id column="id" property="id"></id>
+        <result column="image" property="image"></result>
+        <result column="brand" property="brand"></result>
+        <result column="type" property="type"></result>
+        <result column="price" property="price"></result>
+        <result column="is_delete" property="is_delete"></result>
+    </resultMap>
+
+    <select id="selectGoodsById" resultType="goods">
+        select * from goods where id=#{id} and is_delete=0
+    </select>
+<!--模糊查询-->
+    <select id="likeselect" resultType="goods">
+        select * from goods where concat(brand,type,price) like '%${content}%' and is_delete=0
+    </select>
+    <update id="updateshoplist">
+        update goods set is_delete = 1 where id=#{id}
+    </update>
+    <insert id="addshop">
+        insert into goods (image,brand,type,price) values (#{image},#{brand},#{type},#{price})
+    </insert>
+    <select id="selectGoodsByimage" resultType="goods">
+        select image from goods where image=#{image} and is_delete=0;
+    </select>
+</mapper>
